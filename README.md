@@ -15,7 +15,7 @@ Node.js (v14.x or later)
 MongoDB (or you can use MongoDB Atlas for a cloud-based solution)
 Git
 
-# ENVIRONMENT VAIABLES SETUP
+# ENVIRONMENT VARIABLES SETUP
 # Server
 PORT=8000  <br/>
 CORS_ORIGIN=*
