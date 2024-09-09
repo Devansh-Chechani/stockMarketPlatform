@@ -1,5 +1,5 @@
 # Stock Discussion Platform Backend
-This project is the backend for a stock discussion platform where users can discuss various stocks, manage posts, comment, and like posts. It is built using the MERN stack (MongoDB, Express.js, Node.js).
+This project is the backend for a stock discussion platform where users can discuss various stocks, manage posts, comment, and like posts. It is built using the MERN stack (MongoDB, Express.js, Node.js and Mongodb aggregation pipelines).
 
 # Features
 User authentication (JWT-based) <br/>
