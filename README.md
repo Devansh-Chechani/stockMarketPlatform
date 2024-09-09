@@ -2,11 +2,11 @@
 This project is the backend for a stock discussion platform where users can discuss various stocks, manage posts, comment, and like posts. It is built using the MERN stack (MongoDB, Express.js, Node.js).
 
 # Features
-User authentication (JWT-based)
-Stock post creation and management
-Commenting and liking system for posts
-Post filtering and sorting
-Postman API documentation 
+User authentication (JWT-based) <br/>
+Stock post creation and management <br/>
+Commenting and liking system for posts <br/>
+Post filtering and sorting <br/>
+Postman API documentation  
 
 # Prerequisites
 To run this project, ensure that you have the following installed on your machine:
@@ -17,19 +17,19 @@ Git
 
 # ENVIRONMENT VAIABLES SETUP
 # Server
-PORT=8000
-CORS_ORIGIN=http://localhost:3000
+PORT=8000  <br/>
+CORS_ORIGIN=*
 
 # MongoDB
 MONGO_URI=mongodb://localhost:27017/stockdiscussion
 
 # JWT Secrets
-ACCESS_TOKEN_SECRET=yourAccessTokenSecret
+ACCESS_TOKEN_SECRET=yourAccessTokenSecret <br/>
 REFRESH_TOKEN_SECRET=yourRefreshTokenSecret
 
 # Cloudinary
-CLOUDINARY_CLOUD_NAME=yourCloudName
-CLOUDINARY_API_KEY=yourApiKey
+CLOUDINARY_CLOUD_NAME=yourCloudName <br/>
+CLOUDINARY_API_KEY=yourApiKey <br/>
 CLOUDINARY_API_SECRET=yourApiSecret
 
 
