@@ -20,7 +20,7 @@ const togglePostLike = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Post not found");
     }
 
-    await Like.findOneAndDelete({ post: postId, dislikedBy: userId });
+    await Like.findOneAndDelete({ post: postId, dislikedBy: req.user._id });
 
   const existingLike = await Like.findOne({ post: postId ,likedBy:req.user?._id});
   //console.log(existingLike)

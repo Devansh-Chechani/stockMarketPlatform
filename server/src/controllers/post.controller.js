@@ -156,9 +156,12 @@ const deletePost = asyncHandler(async (req, res) => {
 })
 
 const getAllPosts = asyncHandler(async (req, res) => {
-    const { stockSymbol, tags, sortBy, sortOrder = 'desc' } = req.query;
+    const { stockSymbol, tags, sortBy, sortOrder = 'desc', page = 1, limit = 10 } = req.query;
 
-  
+    // Convert page and limit to numbers
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 10;
+
     let matchConditions = {};
     let sortOptions = {};
 
@@ -166,63 +169,78 @@ const getAllPosts = asyncHandler(async (req, res) => {
     const validSortOrders = ['asc', 'desc'];
     const order = validSortOrders.includes(sortOrder) ? (sortOrder === 'asc' ? 1 : -1) : -1; // Default to descending
 
-   //Filtering
+    // Filtering by stockSymbol
     if (stockSymbol) {
         matchConditions.stockSymbol = stockSymbol;
     }
 
-    // Filter by tags if provided
+    
     if (tags) {
         matchConditions.tags = { $in: tags.split(',') };
     }
 
-    // Set sorting options based on sortBy and sortOrder query parameters
+   
     if (sortBy === 'date') {
         sortOptions = { createdAt: order };
     } else if (sortBy === 'likes') {
         sortOptions = { likesCount: order };
     }
 
-   
- //   console.log('sortOptions:', sortOptions);
-
-    // Define the aggregation pipeline
-    const pipeline = [
-        {
-            $match: matchConditions
-        },
-        {
-            $lookup: {
-                from: 'likes',
-                localField: '_id',
-                foreignField: 'post',
-                as: 'likes'
-            }
-        },
-        {
-            $addFields: {
-                likesCount: { $size: '$likes' }
-            }
-        },
-        ...(Object.keys(sortOptions).length > 0 ? [{ $sort: sortOptions }] : []), // Conditionally include $sort
-        {
-            $project: {
-                _id: 1,
-                stockSymbol: 1,
-                title: 1,
-                description: 1,
-                likesCount: 1,
-                createdAt: 1
-            }
-        }
-    ];
-
     try {
-        
+       
+        const pipeline = [
+            {
+                $match: matchConditions
+            },
+            {
+                $lookup: {
+                    from: 'likes',
+                    localField: '_id',
+                    foreignField: 'post',
+                    as: 'likes'
+                }
+            },
+            {
+                $addFields: {
+                    likesCount: { $size: '$likes' }
+                }
+            },
+            ...(Object.keys(sortOptions).length > 0 ? [{ $sort: sortOptions }] : []), // Conditionally include $sort
+            {
+                $project: {
+                    _id: 1,
+                    stockSymbol: 1,
+                    title: 1,
+                    description: 1,
+                    likesCount: 1,
+                    createdAt: 1
+                }
+            },
+            {
+                $skip: (pageNum - 1) * limitNum // Skip posts based on the current page and limit
+            },
+            {
+                $limit: limitNum // Limit the number of posts per page
+            }
+        ];
+
+       
         const posts = await Post.aggregate(pipeline);
 
-      
-        return res.status(200).json(new ApiResponse(200, posts, 'Posts fetched successfully'));
+       
+        const totalPosts = await Post.countDocuments(matchConditions);
+
+        const totalPages = Math.ceil(totalPosts / limitNum);
+
+        // Create pagination metadata
+        const pagination = {
+            currentPage: pageNum,
+            totalPages,
+            limit: limitNum,
+            totalPosts
+        };
+
+        return res.status(200).json(new ApiResponse(200, { posts, pagination }, 'Posts fetched successfully'));
     } catch (error) {
         console.error('Aggregation Error:', error);
         throw new ApiError(500, 'Failed to fetch posts');
