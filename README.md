@@ -41,22 +41,22 @@ You can interact with the API via Postman . Postman collection files are provide
 # API Endpoints
 # Authentication
 Register User: POST /api/auth/register <br/>
-Login User: POST /api/auth/login
-Logout User: POST /api/auth/logout
+Login User: POST /api/auth/login <br/>
+Logout User: POST /api/auth/logout <br/>
 
 
-# User Management
-Get User Profile: GET /api/user/profile/:userId
-Update User Profile: PUT /api/user/profile (requires Authorization: Bearer <token>)
+# User Management 
+Get User Profile: GET /api/user/profile/:userId <br/>
+Update User Profile: PUT /api/user/profile (requires Authorization: Bearer <token>) <br/>
 
 # Post Management
-Create Post: POST /api/posts (requires Authorization: Bearer <token>)
-Get All Posts (with filters and sorting): GET /api/posts
-Get Single Post with Comments: GET /api/posts/:postId
+Create Post: POST /api/posts (requires Authorization: Bearer <token>) <br/>
+Get All Posts (with filters and sorting): GET /api/posts <br/>
+Get Single Post with Comments: GET /api/posts/:postId <br/>
 Delete Post: DELETE /api/posts/:postId (requires Authorization: Bearer <token>)
 
 # Comment Management
-Add Comment to Post: POST /api/posts/:postId/comments (requires Authorization: Bearer <token>)
+Add Comment to Post: POST /api/posts/:postId/comments (requires Authorization: Bearer <token>) <br/>
 Delete Comment: DELETE /api/posts/:postId/comments/:commentId (requires Authorization: Bearer <token>)
 
 # Like System
