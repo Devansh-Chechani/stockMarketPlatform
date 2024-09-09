@@ -40,7 +40,7 @@ You can interact with the API via Postman . Postman collection files are provide
 
 # API Endpoints
 # Authentication
-Register User: POST /api/auth/register
+Register User: POST /api/auth/register <br/>
 Login User: POST /api/auth/login
 Logout User: POST /api/auth/logout
 
